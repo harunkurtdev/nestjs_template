@@ -14,12 +14,15 @@ async function bootstrap() {
   const options = new DocumentBuilder()
     .setTitle('Greenity API')
     .setDescription('The Greenity API User, Business, Inventory, Departures, Entries, Suppliers, AccountsReceivable, Contributions, AccountsPayable, Roles')
-    .setTermsOfService('http://localhost:3046')
+    .setTermsOfService('http://localhost:' + process.env.PORT)
     .setVersion('1.0')
     .addBearerAuth()
     .build();
+
   const document = SwaggerModule.createDocument(app, options);
-  document.servers = [{ url: 'http://localhost:3046/v1/', description: 'Local server' }, { url: 'https://greenity-api.herokuapp.com/v1/', description: 'Heroku server' }];
+  document.servers = [
+    { url: 'http://localhost:' + process.env.PORT + '/v1/', description: 'Local server' },
+    { url: 'https://greenity-api.herokuapp.com/v1/', description: 'Heroku server' }];
   SwaggerModule.setup('api', app, document);
 
 

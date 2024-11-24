@@ -6,8 +6,4 @@ export class AuthDto {
 
   @IsNotEmpty()
   readonly password: string;
-
-  @IsOptional()
-  readonly full_name: string;
 }
-

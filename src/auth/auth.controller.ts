@@ -20,13 +20,18 @@ import {
   Public,
 } from './../common/decorators';
 import { AuthDto } from './dto/auth.dto';
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
 @ApiBearerAuth()
-// @ApiTags('auth')
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
 
   @Public()
   @Post('/login')
@@ -34,7 +39,10 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @ApiResponse({ status: 200, description: 'JWT Token Getting', type: Tokens })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async login(@Body() dto: AuthDto, @Res({ passthrough: true }) res: Response): Promise<Tokens> {
+  async login(
+    @Body() dto: AuthDto,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<Tokens> {
     const token = await this.authService.login(dto);
     res.cookie('access_cookies', token.access_token, {
       httpOnly: true,
